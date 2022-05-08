@@ -102,7 +102,8 @@ class TextParamNode (ObjectParamNode):
     ("autoadjust", "autoadjust"): Boolean, 
     ("soft", "soft"): Boolean, 
     ("monospace", "monospace"): Boolean, 
-    ("align", "align"): Boolean, 
+    ("align", "align"): Int, 
+    ("type", "type"): Int,
     ("spacing_x", "spacingx"): Int, 
     ("spacing_y", "spacingy"): Int, 
     ("precision", "precision"): Boolean, 
@@ -111,7 +112,7 @@ class TextParamNode (ObjectParamNode):
     ("font", "font"): String, 
   }
 
-  def __init__ (self, text, *, size=34, displayspeed=0.0, indivisualobject=False, displayontranslatedposition=False, autoscroll=False, bold=False, italic=False, autoadjust=False, soft=True, monospace=False, align=False, spacingx=0, spacingy=0, precision=True, color=Color(255, 255, 255), color2=Color(0, 0, 0), font="MS UI Gothic", **params):
+  def __init__ (self, text, *, size=34, displayspeed=0.0, indivisualobject=False, displayontranslatedposition=False, autoscroll=False, bold=False, italic=False, autoadjust=False, soft=True, monospace=False, align=0, type=0, spacingx=0, spacingy=0, precision=True, color=Color(255, 255, 255), color2=Color(0, 0, 0), font="MS UI Gothic", **params):
     super().__init__("テキスト", **params | {
       "text": text,
       "size": size,
@@ -125,6 +126,7 @@ class TextParamNode (ObjectParamNode):
       "soft": soft,
       "monospace": monospace,
       "align": align,
+      "type": type,
       "spacingx": spacingx,
       "spacingy": spacingy,
       "precision": precision,
