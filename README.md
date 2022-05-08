@@ -1,6 +1,10 @@
 
 # exolib
 
+![](https://img.shields.io/badge/version-0.9.0-gray)
+![](https://img.shields.io/badge/python-3.10-blue)
+![](https://img.shields.io/github/license/tikubonn/exolib)
+
 AviUtlのエクスポートファイルを編集できるライブラリです。
 既存のファイルを編集するだけに限らず、新たなファイルを新規作成することもできます。
 このライブラリを使うことで、例えば会話文から感情を推論させて、感情に沿った立ち絵・文章・音声を配置した.exoファイルを作成する。
