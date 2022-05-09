@@ -1,5 +1,5 @@
 
-from exofile import Color, Text, String, Float, Int, Boolean
+from exofile import Color, Text, String, Float, Int, Boolean, IntTrackBarRange, FloatTrackBarRange
 from .object_node import ObjectNode
 from .object_param_node import ObjectParamNode
 
@@ -7,8 +7,8 @@ class VideoParamNode (ObjectParamNode):
 
   transformation_table = ObjectParamNode.transformation_table | {
     ("file", "file"): String, 
-    ("再生位置", "playbackposition"): Float, 
-    ("再生速度", "playbackspeed"): Float, 
+    ("再生位置", "playbackposition"): FloatTrackBarRange, 
+    ("再生速度", "playbackspeed"): FloatTrackBarRange, 
     ("ループ再生", "loopplayback"): Boolean, 
     ("アルファチャンネルを読み込む", "usealphachannel"): Boolean, 
   }
@@ -25,12 +25,12 @@ class VideoParamNode (ObjectParamNode):
 class StandardDrawingParamNode (ObjectParamNode):
 
   transformation_table = ObjectParamNode.transformation_table | {
-    ("X", "x"): Float,
-    ("Y", "y"): Float,
-    ("Z", "z"): Float,
-    ("拡大率", "scale"): Float,
-    ("透明度", "transparent"): Float,
-    ("回転", "rotation"): Float,
+    ("X", "x"): FloatTrackBarRange,
+    ("Y", "y"): FloatTrackBarRange,
+    ("Z", "z"): FloatTrackBarRange,
+    ("拡大率", "scale"): FloatTrackBarRange,
+    ("透明度", "transparent"): FloatTrackBarRange,
+    ("回転", "rotation"): FloatTrackBarRange,
     ("blend", "blend"): Int,
   }
 
@@ -60,8 +60,8 @@ class AudioParamNode (ObjectParamNode):
 
   transformation_table = ObjectParamNode.transformation_table | {
     ("file", "file"): String, 
-    ("再生位置", "playbackposition"): Float, 
-    ("再生速度", "playbackspeed"): Float, 
+    ("再生位置", "playbackposition"): FloatTrackBarRange, 
+    ("再生速度", "playbackspeed"): FloatTrackBarRange, 
     ("ループ再生", "loopplayback"): Boolean, 
     ("動画ファイルと連携", "linkwithvideo"): Boolean, 
   }
@@ -78,8 +78,8 @@ class AudioParamNode (ObjectParamNode):
 class StandardPlayingParamNode (ObjectParamNode):
 
   transformation_table = ObjectParamNode.transformation_table | {
-    ("音量", "volume"): Float, 
-    ("左右", "direction"): Float, 
+    ("音量", "volume"): FloatTrackBarRange, 
+    ("左右", "direction"): FloatTrackBarRange, 
   }
 
   def __init__ (self, *, volume=100.0, direction=0.0, **params):
@@ -92,8 +92,8 @@ class TextParamNode (ObjectParamNode):
 
   transformation_table = ObjectParamNode.transformation_table | {
     ("text", "text"): Text, 
-    ("サイズ", "size"): Int, 
-    ("表示速度", "displayspeed"): Float, 
+    ("サイズ", "size"): IntTrackBarRange, 
+    ("表示速度", "displayspeed"): FloatTrackBarRange, 
     ("文字毎に個別オブジェクト", "indivisualobject"): Boolean, 
     ("移動座標上に表示する", "displayontranslatedposition"): Boolean, 
     ("自動スクロール", "autoscroll"): Boolean, 
@@ -103,7 +103,7 @@ class TextParamNode (ObjectParamNode):
     ("soft", "soft"): Boolean, 
     ("monospace", "monospace"): Boolean, 
     ("align", "align"): Int, 
-    ("type", "type"): Int,
+    ("type", "type"): Int, 
     ("spacing_x", "spacingx"): Int, 
     ("spacing_y", "spacingy"): Int, 
     ("precision", "precision"): Boolean, 
@@ -139,9 +139,9 @@ class ShapeParamNode (ObjectParamNode):
 
   transformation_table = ObjectParamNode.transformation_table | {
     ("type", "type"): Int,
-    ("サイズ", "size"): Int,
-    ("縦横比", "aspect"): Float,
-    ("ライン幅", "linewidth"): Int,
+    ("サイズ", "size"): IntTrackBarRange,
+    ("縦横比", "aspect"): FloatTrackBarRange,
+    ("ライン幅", "linewidth"): IntTrackBarRange,
     ("color", "color"): Color,
     ("name", "name"): String,
   }
@@ -170,10 +170,10 @@ class FrameBufferParamNode (ObjectParamNode):
 class SoundWaveParamNode (ObjectParamNode):
 
   transformation_table = ObjectParamNode.transformation_table | {
-    ("横幅", "width"): Int, 
-    ("高さ", "height"): Int, 
-    ("音声", "volume"): Float, 
-    ("再生位置", "playbackposition"): Float, 
+    ("横幅", "width"): IntTrackBarRange, 
+    ("高さ", "height"): IntTrackBarRange, 
+    ("音声", "volume"): FloatTrackBarRange, 
+    ("再生位置", "playbackposition"): FloatTrackBarRange, 
     ("編集全体の音声を元にする", "referencescenesound"): Boolean, 
     ("file", "file"): String, 
     ("type", "type"): Int, 
@@ -210,8 +210,8 @@ class SceneParamNode (ObjectParamNode):
 
   transformation_table = ObjectParamNode.transformation_table | {
     ("", "scene"): Int,
-    ("再生位置","playbackposition"): Float,
-    ("再生速度","playbackspeed"): Float,
+    ("再生位置","playbackposition"): FloatTrackBarRange,
+    ("再生速度","playbackspeed"): FloatTrackBarRange,
     ("ループ再生", "loopplayback"): Boolean,
   }
 
@@ -234,18 +234,18 @@ class PreviousObjectParamNode (ObjectParamNode):
 class ExpansionDrawingParamNode (ObjectParamNode):
 
   transformation_table = ObjectParamNode.transformation_table | {
-    ("X", "x"): Float, 
-    ("Y", "y"): Float, 
-    ("Z", "z"): Float, 
-    ("拡大率", "scale"): Float, 
-    ("透明度", "transparent"): Float, 
-    ("縦横比", "aspect"): Float, 
-    ("X軸回転", "rotationx"): Float, 
-    ("Y軸回転", "rotationy"): Float, 
-    ("Z軸回転", "rotationz"): Float, 
-    ("中心X", "centerx"): Float, 
-    ("中心Y", "centery"): Float, 
-    ("中心Z", "centerz"): Float, 
+    ("X", "x"): FloatTrackBarRange, 
+    ("Y", "y"): FloatTrackBarRange, 
+    ("Z", "z"): FloatTrackBarRange, 
+    ("拡大率", "scale"): FloatTrackBarRange, 
+    ("透明度", "transparent"): FloatTrackBarRange, 
+    ("縦横比", "aspect"): FloatTrackBarRange, 
+    ("X軸回転", "rotationx"): FloatTrackBarRange, 
+    ("Y軸回転", "rotationy"): FloatTrackBarRange, 
+    ("Z軸回転", "rotationz"): FloatTrackBarRange, 
+    ("中心X", "centerx"): FloatTrackBarRange, 
+    ("中心Y", "centery"): FloatTrackBarRange, 
+    ("中心Z", "centerz"): FloatTrackBarRange, 
     ("裏面を表示しない", "hidebackside"): Boolean, 
     ("blend", "blend"): Int, 
   }
@@ -271,30 +271,30 @@ class ExpansionDrawingParamNode (ObjectParamNode):
 class ParticleParamNode (ObjectParamNode):
 
   transformation_table = ObjectParamNode.transformation_table | {
-    ("X", "x"): Float, 
-    ("Y", "y"): Float, 
-    ("Z", "z"): Float, 
-    ("出力頻度", "outputfrequency"): Float, 
-    ("出力速度", "outputspeed"): Float, 
-    ("加速度", "acceleration"): Float, 
-    ("出力方向", "outputdirection"): Float, 
-    ("拡散角度", "spreadingangle"): Float, 
-    ("透過率", "transparent"): Float, 
-    ("透過速度", "transparentspeed"): Float, 
-    ("拡大率", "scale"): Float, 
-    ("拡大速度", "scalespeed"): Float, 
-    ("回転角", "angle"): Float, 
-    ("回転速度", "anglespeed"): Float, 
-    ("重力", "gravity"): Float, 
-    ("生存時間", "lifespan"): Float, 
-    ("出力方向の基準を移動方向にする", "shutsuryokuhoukounokijyunnwoidouhoukounisuru"): Boolean, 
-    ("移動範囲の座標からランダムに出力", "idouhanninozahyoukararandomnishuturyoku"): Boolean, 
+    ("X", "x"): FloatTrackBarRange, 
+    ("Y", "y"): FloatTrackBarRange, 
+    ("Z", "z"): FloatTrackBarRange, 
+    ("出力頻度", "outputfrequency"): FloatTrackBarRange, 
+    ("出力速度", "outputspeed"): FloatTrackBarRange, 
+    ("加速度", "acceleration"): FloatTrackBarRange, 
+    ("出力方向", "outputdirection"): FloatTrackBarRange, 
+    ("拡散角度", "spreadingangle"): FloatTrackBarRange, 
+    ("透過率", "transparent"): FloatTrackBarRange, 
+    ("透過速度", "transparentspeed"): FloatTrackBarRange, 
+    ("拡大率", "scale"): FloatTrackBarRange, 
+    ("拡大速度", "scalespeed"): FloatTrackBarRange, 
+    ("回転角", "angle"): FloatTrackBarRange, 
+    ("回転速度", "anglespeed"): FloatTrackBarRange, 
+    ("重力", "gravity"): FloatTrackBarRange, 
+    ("生存時間", "lifespan"): FloatTrackBarRange, 
+    ("出力方向の基準を移動方向にする", "referencemovementdirectiontooutputdirection"): Boolean, 
+    ("移動範囲の座標からランダムに出力", "randomoutputfrommovementrange"): Boolean, 
     ("3Dランダム回転", "random3drotation"): Boolean, 
-    ("終了点で全て消えるように調節する", "shuuryoutenndesubetekieruyounityousetsusuru"): Boolean, 
-    ("blend", "blend"): Float, 
+    ("終了点で全て消えるように調節する", "adjusttodisappearsatendpoint"): Boolean, 
+    ("blend", "blend"): Int, 
   }
 
-  def __init__ (self, x, y, z, *, outputfrequency=20.0, outputspeed=400.0, acceleration=0.0, outputdirection=0.0, spreadingangle=30.0, transparent=0.0, transparentspeed=0.0, scale=100.00, scalespeed=0.00, angle=0.00, anglespeed=0.00, gravity=0.0, lifespan=0.0, shutsuryokuhoukounokijyunnwoidouhoukounisuru=False, idouhanninozahyoukararandomnishuturyoku=False, random3drotation=False, shuuryoutenndesubetekieruyounityousetsusuru=True, blend=0, **params):
+  def __init__ (self, x, y, z, *, outputfrequency=20.0, outputspeed=400.0, acceleration=0.0, outputdirection=0.0, spreadingangle=30.0, transparent=0.0, transparentspeed=0.0, scale=100.00, scalespeed=0.00, angle=0.00, anglespeed=0.00, gravity=0.0, lifespan=0.0, referencemovementdirectiontooutputdirection=False, randomoutputfrommovementrange=False, random3drotation=False, adjusttodisappearsatendpoint=True, blend=0, **params):
     super().__init__("パーティクル出力", **params | {
       "x": x,
       "y": y,
@@ -312,10 +312,10 @@ class ParticleParamNode (ObjectParamNode):
       "anglespeed": anglespeed,
       "gravity": gravity,
       "lifespan": lifespan,
-      "shutsuryokuhoukounokijyunnwoidouhoukounisuru": shutsuryokuhoukounokijyunnwoidouhoukounisuru,
-      "idouhanninozahyoukararandomnishuturyoku": idouhanninozahyoukararandomnishuturyoku,
+      "referencemovementdirectiontooutputdirection": referencemovementdirectiontooutputdirection,
+      "randomoutputfrommovementrange": randomoutputfrommovementrange,
       "random3drotation": random3drotation,
-      "shuuryoutenndesubetekieruyounityousetsusuru": shuuryoutenndesubetekieruyounityousetsusuru,
+      "adjusttodisappearsatendpoint": adjusttodisappearsatendpoint,
       "blend": blend,
     })
 

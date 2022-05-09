@@ -1,11 +1,11 @@
 
-from exofile import Color 
+from exofile import Color, TrackBarType
 from exolib import EXO, ObjectNode, TextParamNode, ImageParamNode, StandardDrawingParamNode
 from unittest import TestCase 
 
 class TestEXOSerialize (TestCase):
 
-  def test_serialize (self):
+  def test_load (self):
     TEST_DATA = """[exedit]
 width=1280
 height=720
@@ -86,8 +86,12 @@ Z=0.0
     textobjparamnodes = list(textobjnode.iter_objparam())
     self.assertIsInstance(textobjparamnodes[0], TextParamNode)
     self.assertEqual(textobjparamnodes[0]["text"], "スーパーゆかりタイム！")
-    self.assertEqual(textobjparamnodes[0]["size"], 100)
-    self.assertEqual(textobjparamnodes[0]["displayspeed"], 0.0)
+    self.assertEqual(textobjparamnodes[0]["size"].start, 100)
+    self.assertEqual(textobjparamnodes[0]["size"].end, 100)
+    self.assertEqual(textobjparamnodes[0]["size"].tracktype, TrackBarType.NONE)
+    self.assertEqual(textobjparamnodes[0]["displayspeed"].start, 0.0)
+    self.assertEqual(textobjparamnodes[0]["displayspeed"].end, 0.0)
+    self.assertEqual(textobjparamnodes[0]["displayspeed"].tracktype, TrackBarType.NONE)
     self.assertEqual(textobjparamnodes[0]["indivisualobject"], False)
     self.assertEqual(textobjparamnodes[0]["displayontranslatedposition"], False)
     self.assertEqual(textobjparamnodes[0]["autoscroll"], False)
@@ -106,9 +110,21 @@ Z=0.0
 
     self.assertIsInstance(textobjparamnodes[1], StandardDrawingParamNode)
     self.assertEqual(textobjparamnodes[1]["blend"], 0)
-    self.assertEqual(textobjparamnodes[1]["x"], 0.0)
-    self.assertEqual(textobjparamnodes[1]["y"], 0.0)
-    self.assertEqual(textobjparamnodes[1]["z"], 0.0)
-    self.assertEqual(textobjparamnodes[1]["scale"], 100.0)
-    self.assertEqual(textobjparamnodes[1]["transparent"], 0.0)
-    self.assertEqual(textobjparamnodes[1]["rotation"], 0.0)
+    self.assertEqual(textobjparamnodes[1]["x"].start, 0.0)
+    self.assertEqual(textobjparamnodes[1]["x"].end, 0.0)
+    self.assertEqual(textobjparamnodes[1]["x"].tracktype, TrackBarType.NONE)
+    self.assertEqual(textobjparamnodes[1]["y"].start, 0.0)
+    self.assertEqual(textobjparamnodes[1]["y"].end, 0.0)
+    self.assertEqual(textobjparamnodes[1]["y"].tracktype, TrackBarType.NONE)
+    self.assertEqual(textobjparamnodes[1]["z"].start, 0.0)
+    self.assertEqual(textobjparamnodes[1]["z"].end, 0.0)
+    self.assertEqual(textobjparamnodes[1]["z"].tracktype, TrackBarType.NONE)
+    self.assertEqual(textobjparamnodes[1]["scale"].start, 100.0)
+    self.assertEqual(textobjparamnodes[1]["scale"].end, 100.0)
+    self.assertEqual(textobjparamnodes[1]["scale"].tracktype, TrackBarType.NONE)
+    self.assertEqual(textobjparamnodes[1]["transparent"].start, 0.0)
+    self.assertEqual(textobjparamnodes[1]["transparent"].end, 0.0)
+    self.assertEqual(textobjparamnodes[1]["transparent"].tracktype, TrackBarType.NONE)
+    self.assertEqual(textobjparamnodes[1]["rotation"].start, 0.0)
+    self.assertEqual(textobjparamnodes[1]["rotation"].end, 0.0)
+    self.assertEqual(textobjparamnodes[1]["rotation"].tracktype, TrackBarType.NONE)

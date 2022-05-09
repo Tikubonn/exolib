@@ -1,7 +1,7 @@
 
 # exolib
 
-![](https://img.shields.io/badge/version-0.9.0-gray)
+![](https://img.shields.io/badge/version-0.10.0-gray)
 ![](https://img.shields.io/badge/python-3.10-blue)
 ![](https://img.shields.io/github/license/tikubonn/exolib)
 
