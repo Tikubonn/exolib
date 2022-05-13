@@ -3,10 +3,10 @@ from abc import ABC
 
 class Node (ABC):
 
-  def __init__ (self):
-    self._forward = None 
-    self._backward = None 
-    self.parent = None 
+  def __init__ (self, *, forward=None, backward=None, parent=None):
+    self._forward = forward
+    self._backward = backward
+    self.parent = parent
 
   @property
   def forward (self): #readonly

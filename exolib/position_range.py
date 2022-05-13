@@ -1,4 +1,6 @@
 
+from collections.abc import Iterable
+
 class PositionRange:
 
   def __init__ (self, start, end):
@@ -7,12 +9,13 @@ class PositionRange:
 
   def __eq__ (self, posrange):
     return (
+      isinstance(posrange, Iterable) or 
       isinstance(posrange, PositionRange) and 
-      self.span() == posrange.span()
+      tuple(self) == tuple(posrange)
     )
 
-  def span (self):
-    return self.start, self.end
+  def __iter__ (self):
+    return iter((self.start, self.end))
 
   def is_inside (self, position):
     return self.start <= position and position <= self.end

@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as readme:
 
 setup(
   name="exolib",
-  version="0.10.0",
+  version="0.11.0",
   description="Home maid library for editing .exo file of AviUtl.",
   long_description=long_description,
   long_description_content_type="text/markdown",

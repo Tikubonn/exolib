@@ -1,7 +1,7 @@
 
 # exolib
 
-![](https://img.shields.io/badge/version-0.10.0-gray)
+![](https://img.shields.io/badge/version-0.11.0-gray)
 ![](https://img.shields.io/badge/python-3.10-blue)
 ![](https://img.shields.io/github/license/tikubonn/exolib)
 
@@ -136,6 +136,67 @@ exolibはこれらの挿入モードを提供しています。
 | `InsertionMode.PUSH_RIGHT`  | 既に挿入先にオブジェクトが存在していれば、そこから右にあるすべてのオブジェクトをずらし、挿入場所を確保します。 | 
 | `InsertionMode.OVERWRITE`   | 既に挿入先にオブジェクトが存在していれば、重なるオブジェクトすべてを切り詰め・または削除し、挿入場所を確保します。一意性の関係で、挿入範囲を超える大きさのオブジェクトが挿入場所に存在していた場合、そのオブジェクトは２分割されずそのまま右側が消失します。 | 
 
+### トラックバーアニメーションを追加する
+
+exolibはトラックバーアニメーションにも対応しています。
+トラックバーアニメーションを使用するには`FloatTrackBarRanges`等のクラスを使用します。
+
+```python
+from exolib import EXO, ObjectNode, TextParamNode, StandardDrawingParamNode, PositionRange, InsertionMode, FloatTrackBarRanges
+from exofile import TrackBarType 
+
+exo = EXO()
+
+textobj = ObjectNode()
+textobj.add_objparam(TextParamNode("吾輩は猫である。")) 
+textobj.add_objparam(StandardDrawingParamNode(
+  FloatTrackBarRange((-100, 100), TrackBarType.LINEAR), 
+  FloatTrackBarRange((0, 0), TrackBarType.LINEAR), 
+  FloatTrackBarRange((0, 0), TrackBarType.LINEAR)
+))
+exo.insert_object(1, PositionRange(1, 24), textobj, InsertionMode.SHIFT_RIGHT) #layer1, 1 ~ 24
+
+textobj2 = ObjectNode()
+textobj2.add_objparam(TextParamNode("名前はまだ無い。")) 
+textobj.add_objparam(StandardDrawingParamNode(
+  FloatTrackBarRange((0, 0), TrackBarType.LINEAR), 
+  FloatTrackBarRange((-100, 100), TrackBarType.LINEAR), 
+  FloatTrackBarRange((0, 0), TrackBarType.LINEAR)
+))
+exo.insert_object(1, PositionRange(1, 24), textobj2, InsertionMode.SHIFT_RIGHT) #layer1, 25 ~ 48
+
+with open("example4.exo", "w", encoding="cp932") as stream:
+  exo.fit_length_to_last_object()
+  exo.dump(stream)
+```
+
+### 中間点を追加する
+
+exolibはオブジェクトの中間点にも対応しています。
+オブジェクトに中間点を追加するには`ObjectNode.add_midpoint`メソッドを使用します。
+中間点を追加したら、それに合わせて`FloatTrackBarRanges`のパラメーター数も増やしましょう。
+
+```python
+from exolib import EXO, ObjectNode, TextParamNode, StandardDrawingParamNode, PositionRange, InsertionMode, FloatTrackBarRanges
+from exofile import TrackBarType, TextAlignment
+
+exo = EXO()
+
+textobj = ObjectNode()
+textobj.add_objparam(TextParamNode("吾輩は猫である。", align=TextAlignment.ALIGN_CENTER_MIDDLE)) 
+textobj.add_objparam(StandardDrawingParamNode(
+  FloatTrackBarRanges((-100, 100, -100), TrackBarType.LINEAR), 
+  FloatTrackBarRanges((0, 0, 0), TrackBarType.LINEAR), 
+  FloatTrackBarRanges((0, 0, 0), TrackBarType.LINEAR)
+))
+textobj.add_midpoint(24)
+exo.insert_object(1, PositionRange(1, 48), textobj, InsertionMode.SHIFT_RIGHT) #layer1, 1 ~ 24
+
+with open("example5.exo", "w", encoding="cp932") as stream:
+  exo.fit_length_to_last_object()
+  exo.dump(stream)
+```
+
 ### 音声オブジェクトを追加する 
 
 最後に音声オブジェクトも追加してみましょう。
@@ -165,7 +226,7 @@ audioobj2.add_objparam(AudioParamNode("example.wav"))
 audioobj2.add_objparam(StandardPlayingParamNode(volume=100.0, direction=100.0))
 exo.insert_object(1, PositionRange(1, 24), audioobj2, InsertionMode.SHIFT_RIGHT)
 
-with open("example4.exo", "w", encoding="cp932") as stream:
+with open("example6.exo", "w", encoding="cp932") as stream:
   exo.fit_length_to_last_object()
   exo.dump(stream)
 ```

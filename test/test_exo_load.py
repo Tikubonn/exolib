@@ -86,12 +86,12 @@ Z=0.0
     textobjparamnodes = list(textobjnode.iter_objparam())
     self.assertIsInstance(textobjparamnodes[0], TextParamNode)
     self.assertEqual(textobjparamnodes[0]["text"], "スーパーゆかりタイム！")
-    self.assertEqual(textobjparamnodes[0]["size"].start, 100)
-    self.assertEqual(textobjparamnodes[0]["size"].end, 100)
-    self.assertEqual(textobjparamnodes[0]["size"].tracktype, TrackBarType.NONE)
-    self.assertEqual(textobjparamnodes[0]["displayspeed"].start, 0.0)
-    self.assertEqual(textobjparamnodes[0]["displayspeed"].end, 0.0)
-    self.assertEqual(textobjparamnodes[0]["displayspeed"].tracktype, TrackBarType.NONE)
+    self.assertEqual(len(textobjparamnodes[0]["size"].values), 1)
+    self.assertEqual(textobjparamnodes[0]["size"].values[0], 100)
+    self.assertEqual(textobjparamnodes[0]["size"].trackbartype, TrackBarType.NONE)
+    self.assertEqual(len(textobjparamnodes[0]["displayspeed"].values), 1)
+    self.assertEqual(textobjparamnodes[0]["displayspeed"].values[0], 0.0)
+    self.assertEqual(textobjparamnodes[0]["displayspeed"].trackbartype, TrackBarType.NONE)
     self.assertEqual(textobjparamnodes[0]["indivisualobject"], False)
     self.assertEqual(textobjparamnodes[0]["displayontranslatedposition"], False)
     self.assertEqual(textobjparamnodes[0]["autoscroll"], False)
@@ -107,24 +107,131 @@ Z=0.0
     self.assertEqual(textobjparamnodes[0]["color"], Color(255, 0, 0))
     self.assertEqual(textobjparamnodes[0]["color2"], Color(0, 0, 0))
     self.assertEqual(textobjparamnodes[0]["font"], "MS UI Gothic")
-
     self.assertIsInstance(textobjparamnodes[1], StandardDrawingParamNode)
     self.assertEqual(textobjparamnodes[1]["blend"], 0)
-    self.assertEqual(textobjparamnodes[1]["x"].start, 0.0)
-    self.assertEqual(textobjparamnodes[1]["x"].end, 0.0)
-    self.assertEqual(textobjparamnodes[1]["x"].tracktype, TrackBarType.NONE)
-    self.assertEqual(textobjparamnodes[1]["y"].start, 0.0)
-    self.assertEqual(textobjparamnodes[1]["y"].end, 0.0)
-    self.assertEqual(textobjparamnodes[1]["y"].tracktype, TrackBarType.NONE)
-    self.assertEqual(textobjparamnodes[1]["z"].start, 0.0)
-    self.assertEqual(textobjparamnodes[1]["z"].end, 0.0)
-    self.assertEqual(textobjparamnodes[1]["z"].tracktype, TrackBarType.NONE)
-    self.assertEqual(textobjparamnodes[1]["scale"].start, 100.0)
-    self.assertEqual(textobjparamnodes[1]["scale"].end, 100.0)
-    self.assertEqual(textobjparamnodes[1]["scale"].tracktype, TrackBarType.NONE)
-    self.assertEqual(textobjparamnodes[1]["transparent"].start, 0.0)
-    self.assertEqual(textobjparamnodes[1]["transparent"].end, 0.0)
-    self.assertEqual(textobjparamnodes[1]["transparent"].tracktype, TrackBarType.NONE)
-    self.assertEqual(textobjparamnodes[1]["rotation"].start, 0.0)
-    self.assertEqual(textobjparamnodes[1]["rotation"].end, 0.0)
-    self.assertEqual(textobjparamnodes[1]["rotation"].tracktype, TrackBarType.NONE)
+    self.assertEqual(len(textobjparamnodes[1]["x"].values), 1)
+    self.assertEqual(textobjparamnodes[1]["x"].values[0], 0.0)
+    self.assertEqual(textobjparamnodes[1]["x"].trackbartype, TrackBarType.NONE)
+    self.assertEqual(len(textobjparamnodes[1]["y"].values), 1)
+    self.assertEqual(textobjparamnodes[1]["y"].values[0], 0.0)
+    self.assertEqual(textobjparamnodes[1]["y"].trackbartype, TrackBarType.NONE)
+    self.assertEqual(len(textobjparamnodes[1]["z"].values), 1)
+    self.assertEqual(textobjparamnodes[1]["z"].values[0], 0.0)
+    self.assertEqual(textobjparamnodes[1]["z"].trackbartype, TrackBarType.NONE)
+    self.assertEqual(len(textobjparamnodes[1]["scale"].values), 1)
+    self.assertEqual(textobjparamnodes[1]["scale"].values[0], 100.0)
+    self.assertEqual(textobjparamnodes[1]["scale"].trackbartype, TrackBarType.NONE)
+    self.assertEqual(len(textobjparamnodes[1]["rotation"].values), 1)
+    self.assertEqual(textobjparamnodes[1]["rotation"].values[0], 0.0)
+    self.assertEqual(textobjparamnodes[1]["rotation"].trackbartype, TrackBarType.NONE)
+
+    dumpedtext = exo.dumps()
+    self.assertEqual(set(TEST_DATA.strip().split("\n") + ["audio=0", "type=0"]), set(dumpedtext.strip().split("\n"))) #TextParamNodeはtypeを自動的に付与します。ObjectNodeはaudioを自動的に付与します。よって雑ですが比較を行うためにTEXT_DATAにも同様の値を付与しています。
+
+  def test_load_with_merge (self):
+    TEST_DATA = """[exedit]
+width=1280
+height=720
+rate=24
+scale=1
+length=72
+audio_rate=44100
+audio_ch=2
+[0]
+start=1
+end=36
+layer=1
+overlay=1
+camera=0
+[0.0]
+_name=図形
+サイズ=0,100,103
+縦横比=0.0
+ライン幅=4000
+type=1
+color=ffffff
+name=
+[0.1]
+_name=標準描画
+X=0.0
+Y=0.0
+Z=0.0
+拡大率=100.00
+透明度=0.0
+回転=0.00
+blend=0
+[1]
+start=37
+end=72
+layer=1
+overlay=1
+camera=0
+chain=1
+[1.0]
+_name=図形
+サイズ=100,0,103
+縦横比=0.0
+ライン幅=4000
+[1.1]
+_name=標準描画
+X=0.0
+Y=0.0
+Z=0.0
+拡大率=100.00
+透明度=0.0
+回転=0.00
+"""
+    exo = EXO.loads(TEST_DATA)
+
+    self.assertEqual(exo["width"], 1280)
+    self.assertEqual(exo["height"], 720)
+    self.assertEqual(exo["rate"], 24)
+    self.assertEqual(exo["scale"], 1)
+    self.assertEqual(exo["length"], 72)
+    self.assertEqual(exo["audiorate"], 44100)
+    self.assertEqual(exo["audioch"], 2)
+
+    objnodes = list(exo.iter_layer_object(1))
+    self.assertEqual(len(objnodes), 1)
+    self.assertEqual(objnodes[0].positionrange.start, 1)
+    self.assertEqual(objnodes[0].positionrange.end, 72)
+    self.assertEqual(objnodes[0]["overlay"], True)
+    self.assertEqual(objnodes[0]["camera"], False)
+
+    objparamnodes = list(objnodes[0].iter_objparam())
+    self.assertEqual(len(objparamnodes), 2)
+    self.assertEqual(len(objparamnodes[0]["size"].values), 3)
+    self.assertEqual(objparamnodes[0]["size"].values[0], 0)
+    self.assertEqual(objparamnodes[0]["size"].values[1], 100)
+    self.assertEqual(objparamnodes[0]["size"].values[2], 0)
+    self.assertEqual(objparamnodes[0]["size"].accelerate, True)
+    self.assertEqual(objparamnodes[0]["size"].decelerate, True)
+    self.assertEqual(objparamnodes[0]["size"].parameter, None)
+    self.assertEqual(len(objparamnodes[0]["aspect"].values), 1)
+    self.assertEqual(objparamnodes[0]["aspect"].values[0], 0.0)
+    self.assertEqual(len(objparamnodes[0]["linewidth"].values), 1)
+    self.assertEqual(objparamnodes[0]["linewidth"].values[0], 4000)
+    self.assertEqual(objparamnodes[0]["color"], Color(255, 255, 255))
+    self.assertEqual(objparamnodes[0]["name"], "")
+    self.assertEqual(len(objparamnodes[1]["x"].values), 1)
+    self.assertEqual(objparamnodes[1]["x"].values[0], 0.0)
+    self.assertEqual(objparamnodes[1]["x"].trackbartype, TrackBarType.NONE)
+    self.assertEqual(len(objparamnodes[1]["y"].values), 1)
+    self.assertEqual(objparamnodes[1]["y"].values[0], 0.0)
+    self.assertEqual(objparamnodes[1]["y"].trackbartype, TrackBarType.NONE)
+    self.assertEqual(len(objparamnodes[1]["z"].values), 1)
+    self.assertEqual(objparamnodes[1]["z"].values[0], 0.0)
+    self.assertEqual(objparamnodes[1]["z"].trackbartype, TrackBarType.NONE)
+    self.assertEqual(len(objparamnodes[1]["scale"].values), 1)
+    self.assertEqual(objparamnodes[1]["scale"].values[0], 100.00)
+    self.assertEqual(objparamnodes[1]["scale"].trackbartype, TrackBarType.NONE)
+    self.assertEqual(len(objparamnodes[1]["transparent"].values), 1)
+    self.assertEqual(objparamnodes[1]["transparent"].values[0], 0.0)
+    self.assertEqual(objparamnodes[1]["transparent"].trackbartype, TrackBarType.NONE)
+    self.assertEqual(len(objparamnodes[1]["rotation"].values), 1)
+    self.assertEqual(objparamnodes[1]["rotation"].values[0], 0.00)
+    self.assertEqual(objparamnodes[1]["rotation"].trackbartype, TrackBarType.NONE)
+    self.assertEqual(objparamnodes[1]["blend"], 0)
+
+    dumpedtext = exo.dumps()
+    self.assertEqual(set(TEST_DATA.strip().split("\n") + ["audio=0"]), set(dumpedtext.strip().split("\n"))) #ObjectNodeはaudioを自動的に付与します。よって雑ですが比較を行うためにTEXT_DATAにも同様の値を付与しています。

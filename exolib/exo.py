@@ -1,10 +1,11 @@
 
-from exofile import EXOFile, Serializable, Int
+from exofile import EXOFile, Serializable, Int, Boolean
 from .exoextra import VideoParamNode, StandardDrawingParamNode, ImageParamNode, AudioParamNode, StandardPlayingParamNode, TextParamNode, ShapeParamNode, FrameBufferParamNode, SoundWaveParamNode, SceneParamNode, PreviousObjectParamNode, ExpansionDrawingParamNode, ParticleParamNode
 from .sectional import Sectional
 from .object_node import ObjectNode, InsertionMode
 from .object_param_node import ObjectParamNode
 from .position_range import PositionRange
+from .serializable_multi_value import SerializableMultiValue
 
 class EXO (Sectional, Serializable):
 
@@ -70,7 +71,7 @@ class EXO (Sectional, Serializable):
         if node is objnode:
           if node is self._layer[layer -1]:
             self._layer[layer -1] = self._layer[layer -1].backward or self._layer[layer -1].forward
-          node = node.independent()
+          node.independent()
           del self._layerlookup[node]
           break
       else:
@@ -106,14 +107,17 @@ class EXO (Sectional, Serializable):
   def load (cls, stream):
     exofile = EXOFile.load(stream)
     exo = EXO.deserialize(exofile["exedit"])
+    lastobjnode = None 
     for objnodeid, objparamnodeids in exofile.get_object_section_ids().items():
       objnode = ObjectNode.deserialize(exofile[objnodeid])
-      objnodestart = Int(objnode["start"])
-      objnodeend = Int(objnode["end"])
-      objnodelayer = Int(objnode["layer"])
+      objnodestart = int(objnode["start"])
+      objnodeend = int(objnode["end"])
+      objnodelayer = int(objnode["layer"])
+      objnodechain = objnode.get("chain", False)
       del objnode["start"]
       del objnode["end"]
       del objnode["layer"]
+      if objnodechain: del objnode["chain"]
       objnodeposrange = PositionRange(objnodestart, objnodeend)
       exo.insert_object(objnodelayer, objnodeposrange, objnode, InsertionMode.DEFAULT)
       for objparamnodeid in objparamnodeids:
@@ -122,6 +126,17 @@ class EXO (Sectional, Serializable):
         objparamnodeclss = cls.deserialize_objparam_table.get(objparamnodename, ObjectParamNode)
         objparamnode = objparamnodeclss.deserialize(exofile[objparamnodeid])
         objnode.add_objparam(objparamnode)
+      if objnodechain:
+        if lastobjnode is not None:
+          mergedobjnode = lastobjnode.merge(objnode)
+          mergedobjnodeposrange = mergedobjnode.positionrange
+          mergedobjnode.independent()
+          lastobjnode.parent.remove_object(lastobjnode) #remove previous node.
+          objnode.parent.remove_object(objnode) #remove self.
+          exo.insert_object(objnodelayer, mergedobjnodeposrange, mergedobjnode, InsertionMode.DEFAULT)
+        else:
+          raise ValueError("{} has no previous object.".format(objnode)) #error 
+      lastobjnode = objnode
     return exo
 
   def dump (self, stream):
@@ -131,15 +146,27 @@ class EXO (Sectional, Serializable):
     objectid = 0
     for layerid, objnode in enumerate(self._layer, 1):
       for node in objnode or []:
-        sectionid = "{:d}".format(objectid)
-        exofile.set(sectionid, "layer", Int(layerid))
-        exofile.set(sectionid, "start", Int(node.positionrange.start))
-        exofile.set(sectionid, "end", Int(node.positionrange.end))
-        for key, value in node.serialize().items():
-          exofile.set(sectionid, key, value)
-        for objparamnodeid, objparamnode in enumerate(node.iter_objparam()):
-          sectionid = "{:d}.{:d}".format(objectid, objparamnodeid)
-          for key, value in objparamnode.serialize().items():
-            exofile.set(sectionid, key, value)
-        objectid += 1
+        for rngeindex, rnge in enumerate(node.iter_range()):
+          start, end = rnge
+          sectionid = "{:d}".format(objectid)
+          if 0 < rngeindex:
+            exofile.set(sectionid, "chain", Boolean(True))
+          exofile.set(sectionid, "layer", Int(layerid))
+          exofile.set(sectionid, "start", Int(start))
+          exofile.set(sectionid, "end", Int(end))
+          for key, value in node.serialize().items():
+            if isinstance(value, SerializableMultiValue):
+              atvalue = value.value_at(rngeindex)
+            else:
+              atvalue = value 
+            exofile.set(sectionid, key, atvalue)
+          for objparamnodeid, objparamnode in enumerate(node.iter_objparam()):
+            sectionid = "{:d}.{:d}".format(objectid, objparamnodeid)
+            for key, value in objparamnode.serialize().items():
+              if isinstance(value, SerializableMultiValue):
+                atvalue = value.value_at(rngeindex)
+              else:
+                atvalue = value 
+              exofile.set(sectionid, key, atvalue)
+          objectid += 1
     return exofile.dump(stream)

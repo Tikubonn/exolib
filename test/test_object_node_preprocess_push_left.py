@@ -49,9 +49,9 @@ class TestObjectNodePreprocessPushLeft (TestCase):
     moddedobjnode = objnode1._preprocess_push_left(PositionRange(3, 4))
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 3)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (1, 2))
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 7))
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (1, 2))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (10, 11))
 
   def test_preprocess_push_left4 (self):
 
@@ -68,9 +68,9 @@ class TestObjectNodePreprocessPushLeft (TestCase):
     moddedobjnode = objnode1._preprocess_push_left(PositionRange(4, 5))
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 3)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 7))
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (10, 11))
 
   def test_preprocess_push_left5 (self):
 
@@ -117,9 +117,9 @@ class TestObjectNodePreprocessPushLeft (TestCase):
     moddedobjnode = objnode1._preprocess_push_left(PositionRange(7, 8))
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 3)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (1, 2))
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (5, 6))
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (1, 2))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (5, 6))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (10, 11))
 
   def test_preprocess_push_left8 (self):
 
@@ -136,9 +136,9 @@ class TestObjectNodePreprocessPushLeft (TestCase):
     moddedobjnode = objnode1._preprocess_push_left(PositionRange(8, 9))
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 3)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 7))
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (10, 11))
 
   def test_preprocess_push_left9 (self):
 
@@ -186,9 +186,9 @@ class TestObjectNodePreprocessPushLeft (TestCase):
     moddedobjnode = objnode1._preprocess_push_left(PositionRange(11, 12))
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 3)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (1, 2))
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (5, 6))
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (9, 10))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (1, 2))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (5, 6))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (9, 10))
 
   def test_preprocess_push_left12 (self):
 
@@ -206,6 +206,6 @@ class TestObjectNodePreprocessPushLeft (TestCase):
     moddedobjnode = objnode1._preprocess_push_left(PositionRange(12, 13))
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 3)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 7))
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (10, 11))

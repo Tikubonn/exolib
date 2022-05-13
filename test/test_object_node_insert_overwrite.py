@@ -21,13 +21,13 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 4)
     self.assertEqual(moddedobjnodes[0], objnode4)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (1, 2))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (1, 2))
     self.assertEqual(moddedobjnodes[1], objnode1)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (3, 3))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (3, 3))
     self.assertEqual(moddedobjnodes[2], objnode2)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (6, 7))
     self.assertEqual(moddedobjnodes[3], objnode3)
-    self.assertEqual(moddedobjnodes[3].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[3].positionrange), (10, 11))
 
   def test_insert_overwrite2 (self):
 
@@ -46,11 +46,11 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 3)
     self.assertEqual(moddedobjnodes[0], objnode4)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
     self.assertEqual(moddedobjnodes[1], objnode2)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 7))
     self.assertEqual(moddedobjnodes[2], objnode3)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (10, 11))
 
   def test_insert_overwrite3 (self):
 
@@ -69,13 +69,13 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 4)
     self.assertEqual(moddedobjnodes[0], objnode1)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 2))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 2))
     self.assertEqual(moddedobjnodes[1], objnode4)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (3, 4))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (3, 4))
     self.assertEqual(moddedobjnodes[2], objnode2)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (6, 7))
     self.assertEqual(moddedobjnodes[3], objnode3)
-    self.assertEqual(moddedobjnodes[3].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[3].positionrange), (10, 11))
 
   def test_insert_overwrite4 (self):
 
@@ -94,13 +94,13 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 4)
     self.assertEqual(moddedobjnodes[0], objnode1)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
     self.assertEqual(moddedobjnodes[1], objnode4)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (4, 5))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (4, 5))
     self.assertEqual(moddedobjnodes[2], objnode2)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (6, 7))
     self.assertEqual(moddedobjnodes[3], objnode3)
-    self.assertEqual(moddedobjnodes[3].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[3].positionrange), (10, 11))
 
   def test_insert_overwrite5 (self):
 
@@ -119,13 +119,13 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 4)
     self.assertEqual(moddedobjnodes[0], objnode1)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
     self.assertEqual(moddedobjnodes[1], objnode4)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (5, 6))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (5, 6))
     self.assertEqual(moddedobjnodes[2], objnode2)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (7, 7))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (7, 7))
     self.assertEqual(moddedobjnodes[3], objnode3)
-    self.assertEqual(moddedobjnodes[3].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[3].positionrange), (10, 11))
 
   def test_insert_overwrite6 (self):
 
@@ -144,11 +144,11 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 3)
     self.assertEqual(moddedobjnodes[0], objnode1)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
     self.assertEqual(moddedobjnodes[1], objnode4)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 7))
     self.assertEqual(moddedobjnodes[2], objnode3)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (10, 11))
 
   def test_insert_overwrite7 (self):
 
@@ -167,13 +167,13 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 4)
     self.assertEqual(moddedobjnodes[0], objnode1)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
     self.assertEqual(moddedobjnodes[1], objnode2)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 6))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 6))
     self.assertEqual(moddedobjnodes[2], objnode4)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (7, 8))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (7, 8))
     self.assertEqual(moddedobjnodes[3], objnode3)
-    self.assertEqual(moddedobjnodes[3].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[3].positionrange), (10, 11))
 
   def test_insert_overwrite8 (self):
 
@@ -192,13 +192,13 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 4)
     self.assertEqual(moddedobjnodes[0], objnode1)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
     self.assertEqual(moddedobjnodes[1], objnode2)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 7))
     self.assertEqual(moddedobjnodes[2], objnode4)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (8, 9))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (8, 9))
     self.assertEqual(moddedobjnodes[3], objnode3)
-    self.assertEqual(moddedobjnodes[3].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[3].positionrange), (10, 11))
 
   def test_insert_overwrite9 (self):
 
@@ -217,13 +217,13 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 4)
     self.assertEqual(moddedobjnodes[0], objnode1)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
     self.assertEqual(moddedobjnodes[1], objnode2)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 7))
     self.assertEqual(moddedobjnodes[2], objnode4)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (9, 10))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (9, 10))
     self.assertEqual(moddedobjnodes[3], objnode3)
-    self.assertEqual(moddedobjnodes[3].positionrange.span(), (11, 11))
+    self.assertEqual(tuple(moddedobjnodes[3].positionrange), (11, 11))
 
   def test_insert_overwrite10 (self):
 
@@ -242,11 +242,11 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 3)
     self.assertEqual(moddedobjnodes[0], objnode1)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
     self.assertEqual(moddedobjnodes[1], objnode2)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 7))
     self.assertEqual(moddedobjnodes[2], objnode4)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (10, 11))
 
   def test_insert_overwrite11 (self):
 
@@ -265,13 +265,13 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 4)
     self.assertEqual(moddedobjnodes[0], objnode1)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
     self.assertEqual(moddedobjnodes[1], objnode2)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 7))
     self.assertEqual(moddedobjnodes[2], objnode3)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (10, 10))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (10, 10))
     self.assertEqual(moddedobjnodes[3], objnode4)
-    self.assertEqual(moddedobjnodes[3].positionrange.span(), (11, 12))
+    self.assertEqual(tuple(moddedobjnodes[3].positionrange), (11, 12))
 
   def test_insert_overwrite12 (self):
 
@@ -290,10 +290,10 @@ class TestObjectNodeInsertOverwrite (TestCase):
     moddedobjnodes = list(moddedobjnode)
     self.assertEqual(len(moddedobjnodes), 4)
     self.assertEqual(moddedobjnodes[0], objnode1)
-    self.assertEqual(moddedobjnodes[0].positionrange.span(), (2, 3))
+    self.assertEqual(tuple(moddedobjnodes[0].positionrange), (2, 3))
     self.assertEqual(moddedobjnodes[1], objnode2)
-    self.assertEqual(moddedobjnodes[1].positionrange.span(), (6, 7))
+    self.assertEqual(tuple(moddedobjnodes[1].positionrange), (6, 7))
     self.assertEqual(moddedobjnodes[2], objnode3)
-    self.assertEqual(moddedobjnodes[2].positionrange.span(), (10, 11))
+    self.assertEqual(tuple(moddedobjnodes[2].positionrange), (10, 11))
     self.assertEqual(moddedobjnodes[3], objnode4)
-    self.assertEqual(moddedobjnodes[3].positionrange.span(), (12, 13))
+    self.assertEqual(tuple(moddedobjnodes[3].positionrange), (12, 13))

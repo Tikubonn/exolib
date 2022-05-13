@@ -1,5 +1,7 @@
 
 import copy 
+import bisect
+import itertools 
 from enum import IntEnum, auto
 from exofile import Boolean
 from .node import Node 
@@ -29,20 +31,42 @@ class ObjectNode (Node, UniqueObject, Sectional):
     ("audio", "audio"): Boolean, 
   }
 
-  def __init__ (self, *, overlay=True, camera=False, audio=False, **params):
-    Node.__init__(self)
+  def __init__ (self, *, overlay=True, camera=False, audio=False, positionrange=None, midpoints=[], objparamnode=None, forward=None, backward=None, parent=None, **params):
+    Node.__init__(self, forward=forward, backward=backward, parent=parent)
     UniqueObject.__init__(self)
-    Sectional.__init__(self, **params | {
-      "overlay": overlay, 
-      "camera": camera, 
-      "audio": audio, 
-    })
-    self._positionrange = None
-    self.objparamnode = None 
+    Sectional.__init__(self, **params | { "overlay": overlay, "camera": camera, "audio": audio })
+    self._positionrange = positionrange
+    self._midpoints = list(midpoints)
+    self.objparamnode = objparamnode
+
+  @property
+  def midpoints (self):
+    return copy.copy(self._midpoints)
 
   @property
   def positionrange (self):
     return copy.copy(self._positionrange)
+
+  #midpoint 
+
+  def iter_range (self):
+    midpointstarts = [ self._positionrange.start + midpoint for midpoint in self._midpoints ]
+    midpointends = [ self._positionrange.start + midpoint -1 for midpoint in self._midpoints ]
+    starts = [ self._positionrange.start ] + [ midpoint for midpoint in midpointstarts if midpoint <= self._positionrange.end ] #start can contains end pos.
+    ends = [ midpoint for midpoint in midpointends if midpoint < self._positionrange.end ] + [ self._positionrange.end ]
+    return zip(starts, ends)
+
+  def add_midpoint (self, midpoint):
+    if 0 < midpoint:
+      if midpoint not in self._midpoints:
+        bisect.insort(self._midpoints, midpoint)
+      else:
+        raise ValueError("Argument of midpoint {} is already exists in {}.midpoints.".format(midpoint, self)) #error 
+    else:
+      raise ValueError("Argument of midpoint {} must be over 1.".format(midpoint)) #error 
+
+  def remove_midpoint (self, midpoint):
+    self._midpoints.remove(midpoint)
 
   #objparam
 
@@ -71,7 +95,7 @@ class ObjectNode (Node, UniqueObject, Sectional):
         opnode.independent()
         break
     else:
-      raise ValueError()
+      raise ValueError("Could not find {} in {}.objparamnode".format(oparamnode, self)) #error 
 
   #insert 
 
@@ -185,8 +209,10 @@ class ObjectNode (Node, UniqueObject, Sectional):
     if ObjectNode._can_preprocess_push_left(self, posrange):
       offset = ObjectNode._calculate_offset_for_push_left(self, posrange)
       for node in self._backwards_start_by(posrange.end):
-        node._positionrange.start -= offset
-        node._positionrange.end -= offset
+        node._positionrange = PositionRange(
+          node._positionrange.start - offset, 
+          node._positionrange.end - offset
+        )
       return self
     else:
       raise InsertionError()
@@ -194,8 +220,10 @@ class ObjectNode (Node, UniqueObject, Sectional):
   def _preprocess_push_right (self, posrange):
     offset = ObjectNode._calculate_offset_for_push_right(self, posrange)
     for node in self._forwards_start_by(posrange.start):
-      node._positionrange.start += offset
-      node._positionrange.end += offset
+      node._positionrange = PositionRange(
+        node._positionrange.start + offset, 
+        node._positionrange.end + offset
+      )
     return self
 
   def _preprocess_overwrite (self, posrange):
@@ -232,8 +260,9 @@ class ObjectNode (Node, UniqueObject, Sectional):
         node = node._preprocess_overwrite(prange)
     else:
       if node is not None:
-        if node.find_by_posrange(prange): #重複するときに例外を送出
-          raise InsertionError()
+        conflictnode = node.find_by_posrange(prange)
+        if conflictnode: #重複するときに例外を送出
+          raise InsertionError("Insertion place {} is conflicts to {}.".format(tuple(prange), conflictnode)) #error 
     if node is not None:
       foundbackward = node._find_backward_nearest_by_position(prange.start)
       if foundbackward is not None:
@@ -247,3 +276,27 @@ class ObjectNode (Node, UniqueObject, Sectional):
     else:
       objnode._positionrange = prange
       return objnode
+
+  def merge (self, objnode):
+    if self._positionrange.end +1 == objnode._positionrange.start:
+      positionrange = PositionRange(self._positionrange.start, objnode._positionrange.end)
+      midpoints = self._midpoints + [ objnode._positionrange.start - self._positionrange.start ]
+      mergedopnodelast = None 
+      for oparamnode, oparamnode2 in zip(self.objparamnode, objnode.objparamnode):
+        mergedopnd = oparamnode.merge(oparamnode2)
+        mergedopnd.independent()
+        if mergedopnodelast is not None:
+          mergedopnd.link_backward(mergedopnodelast)
+        mergedopnodelast = mergedopnd
+      mergedopnode = mergedopnodelast.first()
+      return ObjectNode(
+        positionrange=positionrange,
+        midpoints=midpoints,
+        objparamnode=mergedopnode,
+        forward=self.forward,
+        backward=self.backward,
+        parent=self.parent,
+        **self
+      )
+    else:
+      raise ValueError("{} and {} must be placed on adjacent.".format(self, objnode)) #error
