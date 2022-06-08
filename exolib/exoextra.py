@@ -1,5 +1,5 @@
 
-from exofile import Color, Text, String, Float, Int, Boolean, ShapeType, ShapeName
+from exofile import Color, Text, String, Float, Int, Boolean, Param, ShapeType, ShapeName
 from .object_node import ObjectNode
 from .object_param_node import ObjectParamNode
 from .serializable_multi_value import IntTrackBarRanges, FloatTrackBarRanges
@@ -153,7 +153,7 @@ class ShapeParamNode (ObjectParamNode):
     ("name", "name"): ShapeName,
   }
 
-  def __init__ (self, type=ShapeType.Circle, *, size=100, aspect=0.0, linewidth=4000, color=Color(255, 255, 255), name="", **params):
+  def __init__ (self, type=ShapeType.CIRCLE, *, size=100, aspect=0.0, linewidth=4000, color=Color(255, 255, 255), name="", **params):
     super().__init__(**params | { 
       "_name": "図形",
       "type": type,
@@ -334,4 +334,90 @@ class ParticleParamNode (ObjectParamNode):
       "blend": blend,
     })
 
-#カスタムオブジェクト、グループ制御などなどを実装する
+class CustomObjectParamNode (ObjectParamNode):
+
+  transformation_table = ObjectParamNode.transformation_table | {
+    ("track0", "track0"): FloatTrackBarRanges,
+    ("track1", "track1"): FloatTrackBarRanges,
+    ("track2", "track2"): FloatTrackBarRanges,
+    ("track3", "track3"): FloatTrackBarRanges,
+    ("check0", "check0"): Int, #0 or 100.
+    ("type", "type"): Int,
+    ("filter", "filter"): Int,
+    ("name", "name"): String,
+    ("param", "param"): Param,
+  }
+
+  def __init__ (self, name, track0=0, track1=0, track2=0, track3=0, *, check0=False, type=0, filter=0, param={}, **params):
+    super().__init__(**params | {
+      "_name": "カスタムオブジェクト",
+      "track0": track0,
+      "track1": track1,
+      "track2": track2,
+      "track3": track3,
+      "check0": check0,
+      "type": type,
+      "filter": filter,
+      "name": name,
+      "param": param,
+    })
+
+class AnimationEffectObjectParamNode (ObjectParamNode):
+
+  transformation_table = ObjectParamNode.transformation_table | {
+    ("track0", "track0"): FloatTrackBarRanges,
+    ("track1", "track1"): FloatTrackBarRanges,
+    ("track2", "track2"): FloatTrackBarRanges,
+    ("track3", "track3"): FloatTrackBarRanges,
+    ("check0", "check0"): Int, #0 or 100.
+    ("type", "type"): Int,
+    ("filter", "filter"): Int,
+    ("name", "name"): String,
+    ("param", "param"): Param,
+  }
+
+  def __init__ (self, name, track0=0, track1=0, track2=0, track3=0, *, check0=False, type=0, filter=0, param={}, **params):
+    super().__init__(**params | {
+      "_name": "アニメーション効果",
+      "track0": track0,
+      "track1": track1,
+      "track2": track2,
+      "track3": track3,
+      "check0": check0,
+      "type": type,
+      "filter": filter,
+      "name": name,
+      "param": param,
+    })
+
+class GroupObjectParamNode (ObjectParamNode):
+
+  transformation_table = ObjectParamNode.transformation_table | {
+    ("X", "x"): FloatTrackBarRanges,
+    ("Y", "y"): FloatTrackBarRanges,
+    ("Z", "z"): FloatTrackBarRanges,
+    ("拡大率", "scale"): FloatTrackBarRanges,
+    ("X軸回転", "rotationx"): FloatTrackBarRanges,
+    ("Y軸回転", "rotationy"): FloatTrackBarRanges,
+    ("Z軸回転", "rotationz"): FloatTrackBarRanges,
+    ("上位グループ制御の影響を受ける", "affectedbyupperlayer"): Boolean,
+    ("同じグループのオブジェクトを対象にする", "targetsamegroupobjs"): Boolean,
+    ("range", "range"): Int,
+  }
+
+  def __init__ (self, x, y, z, *, scale=100.0, rotationx=0.0, rotationy=0.0, rotationz=0.0, affectedbyupperlayer=False, targetsamegroupobjs=True, range=0, **params):
+    super().__init__(**params | {
+      "_name": "グループ制御",
+      "x": x, 
+      "y": y, 
+      "z": z, 
+      "scale": scale, 
+      "rotationx": rotationx, 
+      "rotationy": rotationy, 
+      "rotationz": rotationz, 
+      "affectedbyupperlayer": affectedbyupperlayer, 
+      "targetsamegroupobjs": targetsamegroupobjs, 
+      "range": range, 
+    })
+
+#その他未実装のオブジェクトを実装する
