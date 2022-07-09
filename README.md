@@ -248,7 +248,3 @@ python setup.py test
 ## License 
 
 The MIT License.
-
-## Copyright 
-
-exofile: The MIT License &copy; 2022 tikubonn. All Rights Reserved.
